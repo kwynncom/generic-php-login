@@ -29,6 +29,6 @@ window.onload = function() {
     const une = byid('uname');
     une.oninput = function() {
 	une.required = 'required';
-	une.pattern = '\\s*[^\\s].*';
+	une.pattern = dangerousCharRE();
     }
 }

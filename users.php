@@ -6,6 +6,7 @@ require_once('dao.php');
 new users();
 
 class users {
+        
     public function __construct() {
 
 	$this->sid = startSSLSession();

@@ -17,7 +17,7 @@
 <body>
     <div><form>
 	    <div id='uinfo'></div>
-            <div><label id='unamel'>username:</label><input type='text'     id='uname' autocomplete='username' /></div>
+            <div><label id='unamel'>username:</label><input type='text'     id='uname' autocomplete='username' maxlength='50' /></div>
             <div><label id='pwdl'  >password:</label><input type='password' id='pwd'   autocomplete='current-password' /></div>
 	    <div><button id='loginbtn'>login</button></div>
         </form></div>
