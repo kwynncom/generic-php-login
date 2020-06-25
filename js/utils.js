@@ -1,5 +1,5 @@
-function byid(id ) { return document.getElementById(id); }
-function kwl (sin) { console.log(sin); }
+byid = function(id ) { return document.getElementById(id); }
+kwl  = function(sin) { console.log(sin); }
 dangerousCharRE = function (sin) {
     const sp = '\\[\\]\\(\\);<>\\\\=/\\{\\}&';
     const re = [
@@ -15,3 +15,4 @@ dangerousCharRE = function (sin) {
 
     return re.join('');    
 }
+die = function (msg) { throw new Error(msg); }
