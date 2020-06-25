@@ -25,4 +25,10 @@ window.onload = function() {
 	const sso = serialize(so);
 	const x = 2;
     }
+    
+    const une = byid('uname');
+    une.oninput = function() {
+	une.required = 'required';
+	une.pattern = '\\s*[^\\s].*';
+    }
 }
