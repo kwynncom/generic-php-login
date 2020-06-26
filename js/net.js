@@ -1,10 +1,9 @@
 function send(obin) {
     
-    const burl = 'users.php';
+    const burl = 'index.php';
     const XHR = new XMLHttpRequest(); 
     
-    XHR.open('POST', burl + '?' + serialize(obin));
-    
+    /*
     XHR.onreadystatechange = function() {
 	try {
 	    if (this.readyState === 4 && this.status === 200) {
@@ -15,16 +14,25 @@ function send(obin) {
 	}    catch(err) {
 	// byid('msgs').innerHTML = err + XHR.response;
 	}
-    };
+    }; */
     
-    XHR.send();
+    XHR.open('post', burl);
+    var formData = new FormData(); 
+    for (const [k, v] of Object.entries(obin)) formData.append(k,v);   
+    formData.append('XDEBUG_SESSION_START', 'netbeans-xdebug');
+    XHR.send(formData);
 }
 
-serialize = function(obj) { // see StackOverflow credits below
-  let str = [], p;
+
+
+
+serialize = function(obj, prefix) { // see StackOverflow credits below; Kwynn v726
+  var str = [],
+    p;
   for (p in obj) {
     if (obj.hasOwnProperty(p)) {
-      const k = "[" + p + "]",       v = obj[p];
+      var k = prefix ? prefix + "[" + p + "]" : p,
+        v = obj[p];
       str.push((v !== null && typeof v === "object") ?
         serialize(v, k) :
         encodeURIComponent(k) + "=" + encodeURIComponent(v));
@@ -33,7 +41,7 @@ serialize = function(obj) { // see StackOverflow credits below
   return str.join("&");
 }
 
-/* I (Kwynn) started "serialize()" from:
+/* "serialize()" from:
  * https://stackoverflow.com/questions/1714786/query-string-encoding-of-a-javascript-object
  * edited Mar 5 '18 at 13:08
  * user187291

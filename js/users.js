@@ -1,6 +1,10 @@
 window.onload = function() {
     const uo  = KWUINIT;
     const cnt = uo.ucnt;
+    const une = byid('uname');   
+
+    une.maxLength = uo.maxunamel;
+    
     byid('uinfo').innerHTML = cnt + ' users in the system';
     const crfs = ['unamel', 'pwdl'];
     
@@ -10,6 +14,7 @@ window.onload = function() {
 	    const ih    = e.innerHTML;
 	    e.innerHTML = 'create ' + ih;
 	    byid('loginbtn').innerHTML = 'create user';
+	    byid('pwd').autocomplete = 'new-password';
 	});
     }
     
@@ -19,14 +24,14 @@ window.onload = function() {
 	    const e= byid(f);
 	    so[f] = e.value;
 	});
-	
-	kwl('here 427');
-	
-	const sso = serialize(so);
-	const x = 2;
+	send(so);
     }
     
-    const une = byid('uname');
+    byid('credform').onsubmit = function(event) {
+	event.preventDefault();
+	return false;
+    }
+
     une.oninput = function() {
 	une.required = 'required';
 	une.pattern = dangerousCharRE();
