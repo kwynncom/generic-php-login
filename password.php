@@ -10,6 +10,7 @@ class password {
 	$b = hrtime(1);
 	$h = password_hash($pwd, self::algod, self::options()); unset($pwd);
 	$e = hrtime(1);
+	kwas($h, 'password hashing failed');
 	if (!$ti) return $h; unset($ti);
 	$d = $e - $b; unset($b, $e);
 	$s = round($d / 1000000000, 4); unset($d);

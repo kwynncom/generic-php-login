@@ -1,6 +1,3 @@
-function unprocess(v) {
-    une.required = 'required';
-    une.pattern = dangerousCharRE();
-    une.setCustomValidity('');
-    testun(v);
+function testun(vin) {
+    new sendun(vin);
 }

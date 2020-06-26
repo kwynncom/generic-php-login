@@ -24,6 +24,7 @@ window.onload = function() {
 	    const e= byid(f);
 	    so[f] = e.value;
 	});
+	so.action = 'create';
 	send(so);
     }
     
@@ -33,13 +34,14 @@ window.onload = function() {
     }
 
     une.oninput = function() {
-	unprocess(une.value);
+	unprocess(une);
     }
 }
 
-function unprocess(v) {
+function unprocess(une) {
     une.required = 'required';
     une.pattern = dangerousCharRE();
     une.setCustomValidity('');
-    testun(v);
+    
+    if (une.checkValidity()) testun(une.value);
 }
