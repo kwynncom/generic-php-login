@@ -33,7 +33,13 @@ window.onload = function() {
     }
 
     une.oninput = function() {
-	une.required = 'required';
-	une.pattern = dangerousCharRE();
+	unprocess(une.value);
     }
+}
+
+function unprocess(v) {
+    une.required = 'required';
+    une.pattern = dangerousCharRE();
+    une.setCustomValidity('');
+    testun(v);
 }
