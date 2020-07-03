@@ -5,6 +5,8 @@ window.onload = function() {
 
     une.maxLength = uo.maxunamel;
     
+    if (uo.msg) innm(uo.msg);
+    
     byid('uinfo').innerHTML = cnt + ' users in the system';
     const crfs = ['unamel', 'pwdl'];
     
@@ -33,15 +35,16 @@ window.onload = function() {
 	return false;
     }
 
-    une.oninput = function() {
-	unprocess(une);
+    une.oninput = une.onblur = function(ev) { 
+	unprocess(une, ev.type);
     }
+        
 }
 
-function unprocess(une) {
+function unprocess(une, etype) {
     une.required = 'required';
     une.pattern = dangerousCharRE();
     une.setCustomValidity('');
     
-    if (une.checkValidity()) testun(une.value);
+    if (une.checkValidity()) testun(une.value, etype);
 }

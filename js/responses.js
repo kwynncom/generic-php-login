@@ -1,4 +1,4 @@
-function innm(t) { inn('msgs', 'error: ' + ' ' + t); }
+function innm(t) { inn('msgs', t); }
 
 function handleNetResponse() {
     const res = this.responseText;
@@ -15,5 +15,6 @@ function handleNetResponse() {
     
     if (json.id && json.invalid) byid(json.id).setCustomValidity(json.msg);
 
+    if (json.action === 'created' && json.status === 'OK' && json.redto) window.location = json.redto;
  
 }

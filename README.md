@@ -4,6 +4,11 @@ Login form, password, and session management
 
 GOING BACKWARD IN TIME
 
+07/02 8:51pm
+
+Now appears to create a user and then redirect as logged in.  Also keeps session and shows logged in without new cred entry.
+
+
 06/25 4:05pm
 
 Actively developing.  I may use GitHub as a backup.  Why not?
