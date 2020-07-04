@@ -44,19 +44,29 @@ class users {
 	
 	$this->uname = $this->isIn();
 	
-	if ($this->uname) return;
-	
 	$type = self::rType();
+	
+	if ($type !== 'logout' && $this->uname) return;
 
 	switch($type) {
 	    case 'init' : $this->loadUserScreen(); break;
 	    case 'cred' : 
 	    case 'checkun' : 
-		case 'create' :
+		case 'login' :
 		$this->creds($type); break; 
+	    case 'logout' : 
+		$this->logout(); 
+	    break;
 	}
 	
 
+    }
+    
+    public function logout() {
+	$this->dao->logout();
+	$ret['msg'] = 'You have been logged out';
+	$ret['redto'] = 'http://sm20/users/';
+	kwjae($ret);
     }
     
     public function isIn() {
@@ -72,6 +82,7 @@ class users {
     private static function unckok($uname) {
 	$reto = new stdClass();
 	$reto->msg = "username $uname is available";
+	$reto->userisavail = true;
 	kwjae($reto);
     }
     
@@ -79,26 +90,37 @@ class users {
 
 	kwas(isset(		$_REQUEST['uname']), 'no username');
 	$uname = validUN::orDie($_REQUEST['uname'], self::maxunamel);
-	$this->dao->uqOrDie($uname);
+	if (!isset(             $_REQUEST['pwd'  ])) $this->dao->uqOrDie($uname);
 	
 	if ($type === 'checkun') return self::unckok($uname);
 	
 	if (!isset(   $_REQUEST['action'])) return;	
-	if ($_REQUEST['action'] !== 'create') return;
+	if ($_REQUEST['action'] !== 'login') return;
 	if (!isset(           $_REQUEST['pwd']   )) return;
-	$this->create($uname, $_REQUEST['pwd']);
+	$this->login($uname, $_REQUEST['pwd']);
     }
     
-    private function create($uname, $pwd) {
-	$this->dao->uqOrDie($uname);
-	$hash = password::hash($pwd); unset($pwd);
-	$this->dao->create($uname, $hash);
+    private function login($uname, $pwd) {
+	$ex = $this->dao->exists($uname);
+	
+	if (!$ex) { 
+	    $hash = password::hash($pwd); unset($pwd);
+	    $this->dao->create($uname, $hash);
+	}
+	else  {
+	    $hash = $this->dao->getHash($uname);
+	    kwas(password_verify($pwd, $hash), 'bad uname/pwd'); unset($pwd);
+	    $this->dao->setLoggedIn($uname);
+	    
+	}
 	
 	$reto = new stdClass();
 	$reto->uname = $uname;
-	$reto->msg = "user $uname created and logged in";
+	$reto->msg = "user $uname ";
+	if (!$ex) $reto->msg .= 'created and '; 
+	$reto->msg .= 'logged in';
 	$reto->status = 'OK';
-	$reto->action = 'created';
+	// $reto->action = 'created';
 	if (isset($_SESSION['redto'])) $reto->redto = $_SESSION['redto'];
 	
 	kwjae($reto);
@@ -118,9 +140,10 @@ class users {
     }
     
     private static function rType() {
-	if (!isset($_REQUEST['uname'])) return 'init';
 	if (isset ($_REQUEST['action'])) 
 	    return $_REQUEST['action'];
+	if (!isset($_REQUEST['uname'])) return 'init';
+
 	
 	return 'cred';
     }

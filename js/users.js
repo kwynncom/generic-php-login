@@ -1,13 +1,14 @@
 window.onload = function() {
-    const uo  = KWUINIT;
+    let   uo = false;
+    if (typeof KWUINIT !== 'undefined') uo = KWUINIT;
     const cnt = uo.ucnt;
     const une = byid('uname');   
 
-    une.maxLength = uo.maxunamel;
+    if (une) une.maxLength = uo.maxunamel;
     
     if (uo.msg) innm(uo.msg);
     
-    byid('uinfo').innerHTML = cnt + ' users in the system';
+    // byid('uinfo').innerHTML = cnt + ' users in the system';
     const crfs = ['unamel', 'pwdl'];
     
     if (cnt === 0) {
@@ -20,24 +21,28 @@ window.onload = function() {
 	});
     }
     
-    byid('loginbtn').onclick = function() { 
+    const lib = byid('loginbtn');
+    
+    if (lib) lib.onclick = function() { 
 	const so = {};
 	['uname', 'pwd'].forEach(function(f) { 
 	    const e= byid(f);
 	    so[f] = e.value;
 	});
-	so.action = 'create';
+	so.action = 'login';
 	send(so);
     }
     
-    byid('credform').onsubmit = function(event) {
+    const credf = byid('credform');
+     if  (credf)byid('credform').onsubmit = function(event) {
 	event.preventDefault();
 	return false;
     }
 
-    une.oninput = une.onblur = function(ev) { 
-	unprocess(une, ev.type);
-    }
+    if (une)
+	une.oninput = une.onblur = function(ev) { 
+	    unprocess(une, ev.type);
+	}
         
 }
 
@@ -48,3 +53,5 @@ function unprocess(une, etype) {
     
     if (une.checkValidity()) testun(une.value, etype);
 }
+
+function logout() { send({'action' : 'logout'}); }

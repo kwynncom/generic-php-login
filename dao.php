@@ -19,7 +19,16 @@ class dao_user extends dao_generic {
 	
 	public function userCount() { return $this->ucoll->count(); }
 	
-	public function uqOrDie($uname) { kwas($this->ucoll->count(['uname' => $uname]) === 0, "user $uname exists");	}
+	public function uqOrDie($uname) { kwas($this->exists($uname) === 0, 
+		"user $uname exists.  If that's you, please continue.");
+	}
+	
+	public function exists ($uname) {  return $this->ucoll->count(['uname' => $uname]); }
+	public function getHash($uname) {  
+	    $res = $this->ucoll->findOne(['uname' => $uname]);
+	    kwas($res && isset($res['hash']), 'bad uname/pwd');
+	    return $res['hash'];
+	}
 	
 	public function create($uname, $hash) {
 	    $dat['uname'] = $uname;
@@ -28,12 +37,16 @@ class dao_user extends dao_generic {
 	    $dat['crets'] = $now;
 	    $dat['crer' ] = date('r', $now);
 	    $this->ucoll->insertOne($dat);
-	    
+	    $this->setLoggedIn($uname);
+	}
+	
+	public function setLoggedIn($uname) {
 	    $sdat['uname'] = $uname;
 	    $sdat['sid']   = vsidod();
 	    $this->scoll->upsert($sdat, $sdat);
-	    
 	}
+	
+	public function logout() { $this->scoll->deleteOne(['sid' => vsidod()]); }
 	
 	public function isIn() {
 	    $res = $this->scoll->findOne(['sid' => vsidod()]);
