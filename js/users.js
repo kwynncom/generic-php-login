@@ -9,16 +9,20 @@ window.onload = function() {
     if (uo.msg) innm(uo.msg);
     
     // byid('uinfo').innerHTML = cnt + ' users in the system';
-    const crfs = ['unamel', 'pwdl'];
+    // const crfs = ['unamel', 'pwdl'];
     
     if (cnt === 0) {
+	
+	byid('pwd').autocomplete = 'new-password';
+	
+	/*
 	crfs.forEach(function(f) { 
 	    const e     = byid(f);
 	    const ih    = e.innerHTML;
 	    e.innerHTML = 'create ' + ih;
-	    byid('loginbtn').innerHTML = 'create user';
-	    byid('pwd').autocomplete = 'new-password';
-	});
+	    // byid('loginbtn').innerHTML = 'create user';
+
+	}); */
     }
     
     const lib = byid('loginbtn');

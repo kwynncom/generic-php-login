@@ -18,10 +18,11 @@ function handleNetResponse() {
     if (/* json.action === 'created' && json.status === 'OK' && */ json.redto) window.location = json.redto;
     // if (json.redto) 
     
+    /*
     if (json.userisavail) {
 	byid('pwdl'  ).innerHTML = 'create password:';
 	byid('unamel').innerHTML = 'create username:';
 	byid('loginbtn').innerHTML = 'create and login';
-    }
+    } */
  
 }

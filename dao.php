@@ -8,7 +8,6 @@ class dao_user extends dao_generic {
 	    parent::__construct(self::db);
 	    $this->ucoll    = $this->client->selectCollection(self::db, 'users');
 	    $this->scoll    = $this->client->selectCollection(self::db, 'sessions');
-	    $this->rescoll    = $this->client->selectCollection(self::db, 'utempres');
 	    if ($this->userCount() === 0) $this->createIndexes();
 	}
 	
@@ -24,31 +23,7 @@ class dao_user extends dao_generic {
 		"user $uname exists.  If that's you, please continue.");
 	}
 	
-	public function exists ($uname) {  
-	    $q = ['uname' => $uname];
-	    $cnt = $this->ucoll->count($q); 
-	    if ($cnt) return $cnt;
-
-	    $this->reserve($q);
-	    
-	}
-	
-	private function reserve($q) {
-	    $this->rescoll->deleteMany(['reserved_at' => ['$lt' => time() -  600], 'reserved_sid' => ['$neq' => vsidod()]]);
-	    $this->rescoll->deleteMany(['reserved_at' => ['$lt' => time() - 1800]]);
-	    $this->rescoll->upsert($q, 
-		array_merge($q, ['reserved_at' => time(),
-				 'reserved_sid' => vsidod()]));
-	}
-	
-	private function ckRes($uname) {
-	    $q = ['uname' => $uname];
-	    $res = $this->ucoll->findOneAndUpdate($q);
-	    if (!$res || !isset($res['reserved_sid'])) return;
-	    kwas(               $res['reserved_sid'] === vsidod(), 'username reserved for creation for several minutes');
-	    
-	}
-	
+	public function exists ($uname) {  return $this->ucoll->count(['uname' => $uname]); }
 	public function getHash($uname) {  
 	    $res = $this->ucoll->findOne(['uname' => $uname]);
 	    kwas($res && isset($res['hash']), 'bad uname/pwd');
@@ -61,9 +36,7 @@ class dao_user extends dao_generic {
 	    $now = time();
 	    $dat['crets'] = $now;
 	    $dat['crer' ] = date('r', $now);
-	    
 	    $this->ucoll->insertOne($dat);
-	    
 	    $this->setLoggedIn($uname);
 	}
 	
