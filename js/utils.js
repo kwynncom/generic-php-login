@@ -30,6 +30,6 @@ function send(url, obin, handler) {
     XHR.open('post', url);
     var formData = new FormData(); 
     for (const [k, v] of Object.entries(obin)) formData.append(k,v);   
-    formData.append('XDEBUG_SESSION_START', 'netbeans-xdebug');
+    // formData.append('XDEBUG_SESSION_START', 'netbeans-xdebug');
     XHR.send(formData);
 }

@@ -31,6 +31,7 @@ class dao_user extends dao_generic {
 	    $now = time();
 	    $dat['crets'] = $now;
 	    $dat['crer' ] = date('r', $now);
+	    $dat['seq']   = $this->getSeq('users');
 	    $this->ucoll->insertOne($dat);
 	    $this->setLoggedIn($uname);
 	}
@@ -44,9 +45,15 @@ class dao_user extends dao_generic {
 	public function logout() { $this->scoll->deleteOne(['sid' => vsidod()]); }
 	
 	public function isIn() {
-	    $res = $this->scoll->findOne(['sid' => vsidod()]);
-	    if ($res) return $res['uname'];
-	    return false;
+	    return $this->inInfo('nameonly');
+	}
+	
+	public function inInfo($rtype = false) { 
+	    $res = $this->scoll->findOne(['sid' => vsidod()]); 
+	    if (!$res) return false;
+	    if ($rtype === 'nameonly') return $res['uname'];
+	    
+	    
 	}
    
 }

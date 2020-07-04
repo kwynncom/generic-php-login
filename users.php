@@ -5,24 +5,27 @@ require_once('dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
-users::getUInfo();
+users::getUName();
 
 class users {
     
     const maxunamel = 50;
     
     public static function getUName() {
-	return self::getUINFO();
+	return self::getUINFO('nameonly');
     }
     
     
-    public static function getUInfo() {
+    public static function getUInfo($rtype = false) {
 	
 	try {
 	    $o = new users();
 	    $un = $o->isIn();
 	    kwas($un, 'login process failed');
-	    return $un;
+	    if ($rtype === 'nameonly') return $un;
+	    
+	    return $this->dao->inInfo();
+
 	} catch(Exception $ex) {
 
 	    $ro = new stdClass();
@@ -106,34 +109,41 @@ class users {
     
     private function creds($type) {
 
-	kwas(isset(		$_REQUEST['uname']), 'no username');
-	$uname = validUN::orDie($_REQUEST['uname'], self::maxunamel);
-	if (!isset(             $_REQUEST['pwd'  ])) $this->unck($uname);
+	kwas(isset($_REQUEST['uname']), 'no username');
+	$run =     $_REQUEST['uname'];
 	
-	if ($type === 'checkun') $this->unck($uname);
+	// if (!isset(             $_REQUEST['pwd'  ])) $this->unck($run);
+	
+	if ($type === 'checkun') {
+	    $vuname = validUN::orDie($run, self::maxunamel);
+	    $this->unck($vuname);
+	}
 	
 	if (!isset(   $_REQUEST['action'])) return;	
 	if ($_REQUEST['action'] !== 'login') return;
 	if (!isset(           $_REQUEST['pwd']   )) return;
-	$this->login($uname, $_REQUEST['pwd']);
+	$this->login($run, $_REQUEST['pwd']);
     }
     
-    private function login($uname, $pwd) {
-	$ex = $this->dao->exists($uname);
+    private function login($run, $pwd) {
+		
+	$ex = $this->dao->exists($run);
 	
 	if (!$ex) { 
 	    $hash = password::hash($pwd); unset($pwd);
-	    $this->dao->create($uname, $hash);
+	    $vuname = validUN::orDie($run, self::maxunamel);
+	    $this->dao->create($vuname, $hash);
 	}
 	else  {
-	    $hash = $this->dao->getHash($uname);
+	    $hash = $this->dao->getHash($run);
 	    kwas(password_verify($pwd, $hash), 'bad uname/pwd'); unset($pwd, $hash);
-	    $this->dao->setLoggedIn($uname);
+	    $vuname = $run; unset($run);
+	    $this->dao->setLoggedIn($vuname);
 	}
 	
 	$reto = new stdClass();
-	$reto->uname = $uname;
-	$reto->msg = "user $uname ";
+	$reto->uname = $vuname;
+	$reto->msg = "user $vuname ";
 	if (!$ex) $reto->msg .= 'created and '; 
 	$reto->msg .= 'logged in';
 	$reto->status = 'OK';

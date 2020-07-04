@@ -21,18 +21,33 @@ class password {
     }
     
     public static function options() {
-	$ps = [ 'memory_cost_mb' => ['aws' => 16, 'non' => 64],
-		'time_cost'      => ['aws' => 30, 'non' => 20],
-		'threads'        => ['aws' =>  2, 'non' => 12]    ];
-	
-	
-	$isaws = isAWS();
+	$ps = [ 'memory_cost_mb' => ['aws' => 16, 'non' => 64, 'test' => 'n/a - see below'],
+		'time_cost'      => ['aws' => 30, 'non' => 20, 'test' => 1],
+		'threads'        => ['aws' =>  2, 'non' => 12, 'test' => 1]];
+		
+	$opt = self::getOption();
 	$r = [];
 	
-	foreach($ps as $k  => $va) $r[$k] = $va[$isaws ? 'aws' : 'non'];	
-	$r['memory_cost'] = $r['memory_cost_mb'] * 1024;
+	foreach($ps as $k  => $va) $r[$k] = $va[$opt];
+	
+	if ($opt !== 'test') $r['memory_cost'] = $r['memory_cost_mb'] * 1024;
+	else                 $r['memory_cost'] = 8;
 	unset($r['memory_cost_mb']);
 	
 	return $r;
+    }
+    
+    private static function getOption() {
+	
+	$isaws = isAWS();
+	if ($isaws) return 'aws';
+	
+	if (!ispkwd()) return 'non';
+	
+	if (time() < strtotime('2020-07-04 23:59')) return 'test';
+	
+	return 'non';
+	
+	
     }
 }
