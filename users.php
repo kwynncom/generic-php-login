@@ -5,13 +5,18 @@ require_once('dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
-users::get();
+users::getUInfo();
 
 class users {
     
     const maxunamel = 50;
     
-    public static function get() {
+    public static function getUName() {
+	return self::getUINFO();
+    }
+    
+    
+    public static function getUInfo() {
 	
 	try {
 	    $o = new users();
@@ -185,6 +190,12 @@ class users {
 	    
 	    $ht .= "<script src='$p'></script>\n";
 	}
+	
+//	if ($init) {
+	    $ht .= '<script>';
+	    $ht .= 'const KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");';
+	    $ht .= '</script>' . "\n";
+//	}
 	
 	echo $ht;
     }

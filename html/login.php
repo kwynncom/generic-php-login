@@ -17,8 +17,8 @@
     <div>
 	<form id='credform'> <!-- My use of a form assumes "onsubmit" override or else there is a double HTTP call and bad things happen. -->	    
 	    <div id='msgs'>&nbsp;</div>
-            <div><label  id='unamel'  >(create) username:</label><input type='text'     id='uname' autocomplete='username'  /></div>
-            <div><label  id='pwdl'    >(create) password:</label><input type='password' id='pwd'   autocomplete='current-password' /></div>
+            <div><label               >(create) username:</label><input type='text'     id='uname' autocomplete='username'  /></div>
+            <div><label               >(create) password:</label><input type='password' id='pwd'   autocomplete='current-password' /></div>
 	    <div><button id='loginbtn'>(create and) login</button></div>
         </form></div>
 </body>

@@ -8,7 +8,7 @@ public static function orDie($sin, $maxl) {
     
     kwas(is_string($sin), 'username must be string');
     $sin = trim($sin);
-    kwas(mb_check_encoding($sin, '7bit'), 'invalid character set', 22001);
+    kwas(mb_check_encoding($sin, '7bit'), 'non-allowed character set', 22001);
     kwas(strlen($sin) <= $maxl, "username limited to $maxl characters");
     
     $esht = self::ht($sin); unset($sin);

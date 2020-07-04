@@ -11,7 +11,7 @@
 </head>
 <body>
     <div>
-	<?php $username = users::get();
+	<?php $username = users::getUName();
 	
 	
 	if (isset($username) && $username) { 
