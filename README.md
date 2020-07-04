@@ -4,7 +4,14 @@ Login form, password, and session management
 
 GOING BACKWARD IN TIME
 
-07/03 11:36pm
+07/03 
+
+11:46pm
+
+Should be working again.  
+
+
+11:36pm
 
 The previous version is working well.  I'm considering a reservation system for the very unlikely situation of two users vying for the same username 
 at the same time.  I'm starting to think that this is just not worth worrying about, although I should do *something*.
