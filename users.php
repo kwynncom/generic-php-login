@@ -1,45 +1,45 @@
 <?php
 
-// ini_set('html_errors', false);
-
 require_once('/opt/kwynn/kwutils.php');
 require_once('dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
-
-function userIO($redtoin = false) {
-    try {
-	if ($redtoin && $redtoin !== 'self') $redto = $redtoin;
-	else $redto = false;
-	$o = new users($redto);
-	return $o;
-    } catch(Exception $ex) {
-	
-	$ro = new stdClass();
-	
-	$code = $ex->getCode();
-	if ($code >= 22000 && $code <= 22999) {
-	    $ro->id = 'uname';
-	    $ro->invalid = true;
-	}
-	
-	$ro->msg = $ex->getMessage();
-	kwjae($ro);
-    }
-}
-
-userIO('self');
-
 class users {
     
     const maxunamel = 50;
     
-    public function __construct($redto = false) {
+    public static function get() {
+	
+	try {
+	    $o = new users();
+	    kwas($o->isIn(), 'login process failed');
+	    return $o;
+	} catch(Exception $ex) {
+
+	    $ro = new stdClass();
+
+	    $code = $ex->getCode();
+	    if ($code >= 22000 && $code <= 22999) {
+		$ro->id = 'uname';
+		$ro->invalid = true;
+	    }
+
+	    $ro->msg = $ex->getMessage();
+	    kwjae($ro);
+	}
+    }
+
+    public static function getMyURL() {
+        // https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+	return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    }
+    
+    private function __construct($redto = false) {
 
 	startSSLSession();
 
-	if ($redto) $_SESSION['redto'] = $redto;
+	$this->redto = self::getMyURL();
 	$this->dao = new dao_user();
 	
 	$this->uname = $this->isIn();
@@ -65,7 +65,7 @@ class users {
     public function logout() {
 	$this->dao->logout();
 	$ret['msg'] = 'You have been logged out';
-	$ret['redto'] = 'http://sm20/users/';
+	$ret['redto'] = $this->redto;
 	kwjae($ret);
     }
     
@@ -120,7 +120,7 @@ class users {
 	$reto->msg .= 'logged in';
 	$reto->status = 'OK';
 	// $reto->action = 'created';
-	if (isset($_SESSION['redto'])) $reto->redto = $_SESSION['redto'];
+	$reto->redto = $this->redto;
 	
 	kwjae($reto);
     }

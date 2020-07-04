@@ -1,5 +1,7 @@
 <?php
 
+die('archival only');
+
 require_once('/opt/kwynn/kwutils.php');
 
 function phTest() {

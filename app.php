@@ -9,10 +9,6 @@
 <!-- abstract this - begin -->
 <!-- <script>const KWUINIT = <?php /* echo json_encode($kwinito); */ ?>;</script> -->
 <script src='js/utils.js'></script>
-<script src='js/responses.js'></script>
-<script src='js/net.js'></script>
-<script src='js/netspecific.js'></script>
-<script src='js/uname.js'></script>
 <script src='js/users.js'></script>
 <!-- abstract this - end -->
 

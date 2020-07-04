@@ -7,24 +7,9 @@ window.onload = function() {
     if (une) une.maxLength = uo.maxunamel;
     
     if (uo.msg) innm(uo.msg);
-    
-    // byid('uinfo').innerHTML = cnt + ' users in the system';
-    // const crfs = ['unamel', 'pwdl'];
-    
-    if (cnt === 0) {
-	
-	byid('pwd').autocomplete = 'new-password';
-	
-	/*
-	crfs.forEach(function(f) { 
-	    const e     = byid(f);
-	    const ih    = e.innerHTML;
-	    e.innerHTML = 'create ' + ih;
-	    // byid('loginbtn').innerHTML = 'create user';
 
-	}); */
-    }
-    
+    if (cnt === 0) byid('pwd').autocomplete = 'new-password';
+
     const lib = byid('loginbtn');
     
     if (lib) lib.onclick = function() { 
@@ -34,7 +19,7 @@ window.onload = function() {
 	    so[f] = e.value;
 	});
 	so.action = 'login';
-	send(so);
+	userSend(so);
     }
     
     const credf = byid('credform');
@@ -54,8 +39,52 @@ function unprocess(une, etype) {
     une.required = 'required';
     une.pattern = dangerousCharRE();
     une.setCustomValidity('');
-    
+        
     if (une.checkValidity()) testun(une.value, etype);
 }
 
-function logout() { send({'action' : 'logout'}); }
+function logout() { userSend({'action' : 'logout'}); }
+
+function testun(vin, etype) {
+    delayun(vin, etype);
+}
+
+var KWUNDTAV = false;
+
+function delayun(vin, etype) {
+    if (KWUNDTAV) clearTimeout(KWUNDTAV);
+    let delay = 600;
+    if (etype === 'blur') delay = 0;
+    KWUNDTAV = setTimeout(function() {  new sendun(vin); }, delay);
+}
+
+class sendun {
+     
+     constructor(vin) {
+	const o = {};
+	o.uname = vin;
+	o.action = 'checkun';
+	userSend(o);
+     }
+    
+}
+
+function userSend(obin) { send(window.location.href, obin, handleNetResponse); }
+
+function handleNetResponse() {
+    const res = this.responseText;
+    let   msg = 'unknown error';
+    if (!res) msg = 'blank server response';
+    let json = '';
+    try {
+	json = JSON.parse(this.responseText);
+    } catch(err) { msg = this.responseText; }
+    
+    if (!json || !json.msg) { innm(msg); return; }
+    
+    innm(json.msg);
+    
+    if (json.id && json.invalid) byid(json.id).setCustomValidity(json.msg);
+
+    if (json.redto) window.location = json.redto;
+}

@@ -2,7 +2,7 @@
 
 class validUN {
     
-    const nodecmd1 = 'node ' . __DIR__ . '/js/recli.js' . ' ';
+const nodecmd1 = 'node ' . __DIR__ . '/js/dangerousChar_Node.js' . ' ';
 
 public static function orDie($sin, $maxl) {
     

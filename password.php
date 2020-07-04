@@ -36,6 +36,3 @@ class password {
 	return $r;
     }
 }
-
-// $h = password::hash('Rc2T0PI06mJ0KpgNSJ0T', 1, 1);
-// unset($x);

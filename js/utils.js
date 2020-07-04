@@ -21,3 +21,15 @@ function inn(id, t) {
     if (!e) return;
     e.innerHTML = t;
 }
+
+function innm(t) { inn('msgs', t); }
+
+function send(url, obin, handler) {
+    const XHR = new XMLHttpRequest();
+    XHR.addEventListener('loadend', handler);
+    XHR.open('post', url);
+    var formData = new FormData(); 
+    for (const [k, v] of Object.entries(obin)) formData.append(k,v);   
+    formData.append('XDEBUG_SESSION_START', 'netbeans-xdebug');
+    XHR.send(formData);
+}
