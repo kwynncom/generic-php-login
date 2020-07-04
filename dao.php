@@ -14,14 +14,9 @@ class dao_user extends dao_generic {
 	private function createIndexes() { 
 	    $this->ucoll->createIndex(['uname' => -1], ['unique' => true ]);    
 	    $this->scoll->createIndex(['sid'   => -1], ['unique' => true ]);    
-	    
 	}
 	
 	public function userCount() { return $this->ucoll->count(); }
-	
-	public function uqOrDie($uname) { kwas($this->exists($uname) === 0, 
-		"user $uname exists.  If that's you, please continue.");
-	}
 	
 	public function exists ($uname) {  return $this->ucoll->count(['uname' => $uname]); }
 	public function getHash($uname) {  

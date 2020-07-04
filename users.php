@@ -34,8 +34,11 @@ class users {
     }
 
     public static function getMyURL() {
-        // https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
-	return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+       
+	$u  = '';  // https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+	$u .= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+	$u .= "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	return $u;
     }
     
     private function __construct($redto = false) {
@@ -82,20 +85,27 @@ class users {
 	return $uname;
     }
     
-    private static function unckok($uname) {
+    private function unck($uname) {
+	
+	$ex = $this->dao->exists($uname);
+	if ($ex) $msg = "user $uname exists.  If that's you, please continue.";
+	else     $msg = "username $uname is available";
+	
 	$reto = new stdClass();
-	$reto->msg = "username $uname is available";
+	$reto->msg = $msg;
 	$reto->userisavail = true;
+	$reto->action = 'uck';
 	kwjae($reto);
     }
+    
     
     private function creds($type) {
 
 	kwas(isset(		$_REQUEST['uname']), 'no username');
 	$uname = validUN::orDie($_REQUEST['uname'], self::maxunamel);
-	if (!isset(             $_REQUEST['pwd'  ])) $this->dao->uqOrDie($uname);
+	if (!isset(             $_REQUEST['pwd'  ])) $this->unck($uname);
 	
-	if ($type === 'checkun') return self::unckok($uname);
+	if ($type === 'checkun') $this->unck($uname);
 	
 	if (!isset(   $_REQUEST['action'])) return;	
 	if ($_REQUEST['action'] !== 'login') return;

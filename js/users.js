@@ -13,6 +13,9 @@ window.onload = function() {
     const lib = byid('loginbtn');
     
     if (lib) lib.onclick = function() { 
+	
+	innm('checking...');
+	
 	const so = {};
 	['uname', 'pwd'].forEach(function(f) { 
 	    const e= byid(f);
@@ -81,6 +84,10 @@ function handleNetResponse() {
     } catch(err) { msg = this.responseText; }
     
     if (!json || !json.msg) { innm(msg); return; }
+    
+    if (json.action && json.action === 'uck' 
+	    && document.activeElement.id 
+	    && document.activeElement.id !== 'uname') return;
     
     innm(json.msg);
     
