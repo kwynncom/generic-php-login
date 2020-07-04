@@ -109,9 +109,8 @@ class users {
 	}
 	else  {
 	    $hash = $this->dao->getHash($uname);
-	    kwas(password_verify($pwd, $hash), 'bad uname/pwd'); unset($pwd);
+	    kwas(password_verify($pwd, $hash), 'bad uname/pwd'); unset($pwd, $hash);
 	    $this->dao->setLoggedIn($uname);
-	    
 	}
 	
 	$reto = new stdClass();
