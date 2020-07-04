@@ -7,13 +7,10 @@
 
 <style>
     input:invalid { background-color: lightsalmon; }
+    #credform { font-family: monospace; }
 </style>
 
-<!-- abstract this - begin -->
-<?php echo '<script> const KWUINIT = ' . json_encode($kwinito) . '; </script>'; ?>
-<script src='js/utils.js'></script>
-<script src='js/users.js'></script>
-<!-- abstract this - end -->
+<?php users::echoJS(1); ?>
 
 </head>
 <body>

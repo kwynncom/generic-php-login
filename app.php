@@ -6,20 +6,18 @@
 
 <title>users app example</title>
 
-<!-- abstract this - begin -->
-<!-- <script>const KWUINIT = <?php /* echo json_encode($kwinito); */ ?>;</script> -->
-<script src='js/utils.js'></script>
-<script src='js/users.js'></script>
-<!-- abstract this - end -->
-
+<?php users::echoJS(); ?>
 
 </head>
 <body>
     <div>
-	<?php if ($username) { 
+	<?php $username = users::get();
+	
+	
+	if (isset($username) && $username) { 
 	    echo("user $username is logged in"); ?>
-	<div><button onclick="logout();">log out</button></div>
 	<?php } ?>
+	<div><button onclick="logout();">log out</button></div>
     </div>
 </body>
 </html>

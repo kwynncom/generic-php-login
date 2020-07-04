@@ -5,6 +5,8 @@ require_once('dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
+users::get();
+
 class users {
     
     const maxunamel = 50;
@@ -13,8 +15,9 @@ class users {
 	
 	try {
 	    $o = new users();
-	    kwas($o->isIn(), 'login process failed');
-	    return $o;
+	    $un = $o->isIn();
+	    kwas($un, 'login process failed');
+	    return $un;
 	} catch(Exception $ex) {
 
 	    $ro = new stdClass();
@@ -69,7 +72,7 @@ class users {
 	kwjae($ret);
     }
     
-    public function isIn() {
+    private function isIn() {
 	
 	if (isset($this->uname)) return $this->uname;
 	
@@ -119,23 +122,9 @@ class users {
 	if (!$ex) $reto->msg .= 'created and '; 
 	$reto->msg .= 'logged in';
 	$reto->status = 'OK';
-	// $reto->action = 'created';
 	$reto->redto = $this->redto;
 	
 	kwjae($reto);
-    }
-    
-    private function loadUserScreen($more = false) {
-	$cnt = $this->dao->userCount();
-	$ro = [];
-	$ro['ucnt'] = $cnt;
-	$ro['maxunamel'] = self::maxunamel;
-	if ($more) $ro = array_merge($ro, $more);
-
-	
-	$kwinito = $ro; unset($ro);
-	
-	require_once('html/login.php');
     }
     
     private static function rType() {
@@ -145,5 +134,52 @@ class users {
 
 	
 	return 'cred';
+    }
+    
+    
+    private function loadUserScreen($more = false) {
+	
+	global $KWUINITO;
+	
+	$cnt = $this->dao->userCount();
+	$ro = [];
+	$ro['ucnt'] = $cnt;
+	$ro['maxunamel'] = self::maxunamel;
+	if ($more) $ro = array_merge($ro, $more);
+	
+	$KWUINITO = $ro; unset($ro);
+	
+	require_once('html/login.php');
+	exit(0);
+    }
+    
+
+    public static function echoJS($init = false) {
+	
+	if ($init) global $KWUINITO;
+	
+	$ht  = '';
+	
+	if ($init) {
+	    $ht .= '<script>';
+	    $ht .= 'const KWUINIT = ' . json_encode($KWUINITO) . ';'; unset($KWUINITO);
+	    $ht .= '</script>' . "\n";
+	}
+	
+	$fs = ['utils', 'users'];
+	foreach($fs as $f) {
+	    $p  = self::getPath();
+	    $p .= 'js/';
+	    $p .= $f;
+	    $p .= '.js';
+	    
+	    $ht .= "<script src='$p'></script>\n";
+	}
+	
+	echo $ht;
+    }
+    
+    public static function getPath() {
+	if (isKwDev()) return 'http://sm20/users/';
     }
 }
