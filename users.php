@@ -27,7 +27,7 @@ class users {
 	    if ($rtype === 'nameonly') return $un;
 	    
 	    $dbr = $o->dao->inInfo();
-	    if ($rtype === 'uid') return $dbr['seq'];
+	    if ($rtype === 'uid') return self::validSeqOrDie($dbr['seq']);
 	    return $dbr;
 
 	} catch(Exception $ex) {
@@ -43,6 +43,12 @@ class users {
 	    $ro->msg = $ex->getMessage();
 	    kwjae($ro);
 	}
+    }
+    
+    // because I'm feeling paranoid
+    private static function validSeqOrDie($sin) {
+	kwas($sin && is_integer($sin) && $sin >= 1, 'bad seq');
+	return $sin;
     }
 
     public static function getMyURL() {
