@@ -1,7 +1,7 @@
 <?php
 
 require_once('/opt/kwynn/kwutils.php');
-require_once('dao.php');
+require_once(__DIR__ . '/' . 'dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
