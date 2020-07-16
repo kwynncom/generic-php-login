@@ -5,6 +5,9 @@ require_once('dao.php');
 require_once('charValidator.php');
 require_once('password.php');
 
+/* The following call needs to be there to catch the JavaScript redirects. I'm not sure that "Location" header redirects 
+ * will work as a subtitute.  My brief attempt at such failed.   */
+ 
 users::getUName();
 
 class users {
