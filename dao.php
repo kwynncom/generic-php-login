@@ -18,7 +18,7 @@ class dao_user extends dao_generic {
 	
 	public function userCount() { return $this->ucoll->count(); }
 	
-	public function exists ($uname) {  return $this->ucoll->count(['uname' => $uname]); }
+	public function exists ($uname) {  return $this->ucoll->count(['uname' => trim($uname)]); }
 	public function getHash($uname) {  
 	    $res = $this->ucoll->findOne(['uname' => $uname]);
 	    kwas($res && isset($res['hash']), 'bad uname/pwd');
@@ -26,6 +26,7 @@ class dao_user extends dao_generic {
 	}
 	
 	public function create($uname, $hash) {
+	    $uname = trim($uname);
 	    $dat['uname'] = $uname;
 	    $dat['hash' ] = $hash;
 	    $now = time();
@@ -51,8 +52,15 @@ class dao_user extends dao_generic {
 	public function inInfo($rtype = false) { 
 	    $res = $this->scoll->findOne(['sid' => vsidod()]); 
 	    if (!$res) return false;
-	    if ($rtype === 'nameonly') return $res['uname'];
-	    
+	    $uname = $res['uname'];
+	    if ($rtype === 'nameonly') return $uname;
+	    return $this->limInfo($uname);
+	}
+	
+	private function limInfo($uname) {
+	    $res = $this->ucoll->findOne(		     ['uname' => $uname], 
+					    ['projection' => ['uname' => 1, 'seq' => 1, '_id' => 0]] );
+	    return $res;
 	    
 	}
    

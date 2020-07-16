@@ -11,10 +11,9 @@ class users {
     
     const maxunamel = 50;
     
-    public static function getUName() {
-	return self::getUINFO('nameonly');
-    }
-    
+    public static function getUName() { return self::getUInfo('nameonly'); }
+
+    public static function getUID()   { return self::getUInfo('uid'); }
     
     public static function getUInfo($rtype = false) {
 	
@@ -24,7 +23,9 @@ class users {
 	    kwas($un, 'login process failed');
 	    if ($rtype === 'nameonly') return $un;
 	    
-	    return $this->dao->inInfo();
+	    $dbr = $o->dao->inInfo();
+	    if ($rtype === 'uid') return $dbr['uid'];
+	    return $dbr;
 
 	} catch(Exception $ex) {
 

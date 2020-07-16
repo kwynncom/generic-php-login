@@ -11,11 +11,12 @@
 </head>
 <body>
     <div>
-	<?php $username = users::getUName();
+	<?php 	
 	
+	    $uname = users::getUName();
 	
-	if (isset($username) && $username) { 
-	    echo("user $username is logged in"); ?>
+	    if (     isset($uname)) {
+	    echo('user ' . $uname . ' is logged in'); ?>
 	<?php } ?>
 	<div><button onclick="logout();">log out</button></div>
     </div>
