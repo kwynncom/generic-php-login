@@ -27,7 +27,7 @@ class users {
 	    if ($rtype === 'nameonly') return $un;
 	    
 	    $dbr = $o->dao->inInfo();
-	    if ($rtype === 'uid') return $dbr['uid'];
+	    if ($rtype === 'uid') return $dbr['seq'];
 	    return $dbr;
 
 	} catch(Exception $ex) {
