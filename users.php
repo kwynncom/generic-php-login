@@ -4,6 +4,7 @@ require_once('/opt/kwynn/kwutils.php');
 require_once(__DIR__ . '/' . 'dao.php');
 require_once('charValidator.php');
 require_once('password.php');
+require_once('config.php');
 
 /* The following call needs to be there to catch the JavaScript redirects. I'm not sure that "Location" header redirects 
  * will work as a subtitute.  My brief attempt at such failed.   */
@@ -203,7 +204,7 @@ class users {
 	
 	$fs = ['utils', 'users'];
 	foreach($fs as $f) {
-	    $p  = self::getPath();
+	    $p  = kwynnUsersURL::get();
 	    $p .= 'js/';
 	    $p .= $f;
 	    $p .= '.js';
@@ -219,8 +220,8 @@ class users {
 	
 	echo $ht;
     }
-    
+/*    
     public static function getPath() {
-	if (isKwDev()) return 'http://sm20/users/';
-    }
+	if (ispkwd()) return 'http://sm20/users/';
+    } */
 }
