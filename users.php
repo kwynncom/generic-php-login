@@ -4,7 +4,7 @@ require_once('/opt/kwynn/kwutils.php');
 require_once(__DIR__ . '/' . 'dao.php');
 require_once('charValidator.php');
 require_once('password.php');
-require_once('config.php');
+require_once(__DIR__ . '/' . 'config.php');
 
 /* The following call needs to be there to catch the JavaScript redirects. I'm not sure that "Location" header redirects 
  * will work as a subtitute.  My brief attempt at such failed.   */
