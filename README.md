@@ -2,6 +2,11 @@
 
 Login form, password, and session management
 
+Node.js is required because I use identical code on JavaScript client and server for valid username characters.  You'll get "invalid characters 2" or some such without it.
+
+sudo apt install nodejs
+
+*****
 GOING BACKWARD IN TIME
 
 07/16  11:07pm
