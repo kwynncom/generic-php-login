@@ -11,8 +11,8 @@ require_once('/opt/kwynn/creds.php');
 
 class kwynnUsersURL {
     public static function get() {
-	if (ispkwd()) return self::getKwynnsOwn();
 	if (isAWS())  return 'https://kwynn.com/t/20/07/users/';
+	return self::getKwynnsOwn();
     }
     
     private static function getKwynnsOwn() {

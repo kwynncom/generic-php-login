@@ -6,6 +6,22 @@ Node.js is required because I use identical code on JavaScript client and server
 
 sudo apt install nodejs
 
+OTHER REQUIREMENTS
+
+When another app uses this:
+
+* First you need to to require_once() this users.php, which means you need to set the right path.
+* As in html/login.php, there needs to be users::echoJS() to include the JavaScript files.  In the case of applications using this, do NOT 
+send a parameter or else send a falsey parameter.  Only this should use the true param, as best I remember and have seen.
+	I am assuming that when you include the JS files, the require has been done, so the users:: object is defined.
+* In this config file, you need to define / return this directory's URL (not filepath, url with http:// or https://
+	You have to set this to return the URL properly:
+		class kwynnUsersURL {
+			public static function get() ...
+
+	I return it from a database locally, but that may be more complicated than you want.  
+
+
 *****
 GOING BACKWARD IN TIME
 

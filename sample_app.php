@@ -6,7 +6,9 @@
 
 <title>users app example</title>
 
-<?php users::echoJS(); ?>
+<?php 
+	users::echoJS(); 
+?>
 
 </head>
 <body>

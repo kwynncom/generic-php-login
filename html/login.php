@@ -10,7 +10,9 @@
     #credform { font-family: monospace; }
 </style>
 
-<?php users::echoJS(1); ?>
+<?php 
+	users::echoJS(1); 
+?>
 
 </head>
 <body>
