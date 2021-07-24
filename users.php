@@ -212,16 +212,10 @@ class users {
 	    $ht .= "<script src='$p'></script>\n";
 	}
 	
-//	if ($init) {
-	    $ht .= '<script>';
-	    $ht .= 'const KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");';
-	    $ht .= '</script>' . "\n";
-//	}
+	$ht .= '<script>';
+	$ht .= 'const KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");';
+	$ht .= '</script>' . "\n";
 	
 	echo $ht;
     }
-/*    
-    public static function getPath() {
-	if (ispkwd()) return 'http://sm20/users/';
-    } */
 }

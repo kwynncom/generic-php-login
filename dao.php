@@ -58,10 +58,8 @@ class dao_user extends dao_generic {
 	}
 	
 	private function limInfo($uname) {
-	    $res = $this->ucoll->findOne(		     ['uname' => $uname], 
-					    ['projection' => ['uname' => 1, 'seq' => 1, '_id' => 0]] );
+	    $res = $this->ucoll->findOne(['uname' => $uname], ['projection' => ['uname' => 1, 'seq' => 1, '_id' => 1, 'crets' => 1, 'crer' => 1]] );
+		$res['_id'] = $res['_id']->__toString();
 	    return $res;
-	    
 	}
-   
 }
