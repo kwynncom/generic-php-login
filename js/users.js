@@ -1,10 +1,20 @@
+// 	$ht .= 'const KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");';
+
+function kwusers_onload() {
+	KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");
+}
+
 class kwusers {
 
 constructor(uid, pid, bid, mid, fid) { 
     const self = this;
-    window.onload = function() {  self.main(uid, pid, bid, mid, fid);   }
-    
+    self.init(uid, pid, bid, mid, fid);
 }
+
+init(uid, pid, bid, mid, fid) {
+	this.main(uid, pid, bid, mid, fid);   
+}
+
 
 main(uid, pid, bid, mid, fid) {
 // window.onload = function() {

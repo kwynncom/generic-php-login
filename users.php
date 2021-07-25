@@ -199,6 +199,7 @@ class users {
 	if ($init) {
 	    $ht .= '<script>';
 	    $ht .= 'const KWUINIT = ' . json_encode($KWUINITO) . ';'; unset($KWUINITO);
+		$ht .= 'window.onload = function() { kwusers_onload(); };';
 	    $ht .= '</script>' . "\n";
 	}
 	
@@ -213,7 +214,7 @@ class users {
 	}
 	
 	$ht .= '<script>';
-	$ht .= 'const KWUO = new kwusers("uname", "pwd", "loginbtn", "msgs", "credform");';
+	$ht .= 'var KWUO = false;';
 	$ht .= '</script>' . "\n";
 	
 	echo $ht;

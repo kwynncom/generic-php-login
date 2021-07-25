@@ -21,6 +21,8 @@ send a parameter or else send a falsey parameter.  Only this should use the true
 
 	I return it from a database locally, but that may be more complicated than you want.  
 
+* The using-code's window.onload must be defined and call kwusers_onload()
+
 The following project / repo will soon use this, so you'll see how I did it:
 	https://github.com/kwynncom/crm-lead-tracking
 

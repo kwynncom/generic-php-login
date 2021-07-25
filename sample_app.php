@@ -7,8 +7,12 @@
 <title>users app example</title>
 
 <?php 
-	users::echoJS(); 
+	users::echoJS();
 ?>
+
+<script>
+	window.onload = function() { kwusers_onload();  };
+</script>
 
 </head>
 <body>
