@@ -60,14 +60,18 @@ class users {
 	return $u;
     }
     
+	private function sess10(bool $forceStart) {
+		if ($forceStart) startSSLSession(true); // I have checked whether need to start.
+		$iss = contSSLSession();
+		$this->redto = self::getMyURL();
+		$this->dao = new dao_user();
+		if ($iss || $forceStart) $this->uname = $this->isIn();
+		else $this->uname = false;
+	}
+	
     private function __construct($redto = false) {
 
-	startSSLSession();
-
-	$this->redto = self::getMyURL();
-	$this->dao = new dao_user();
-	
-	$this->uname = $this->isIn();
+		$this->sess10(false);
 	
 	$type = self::rType();
 	
@@ -78,6 +82,7 @@ class users {
 	    case 'cred' : 
 	    case 'checkun' : 
 		case 'login' :
+		$this->sess10(true);
 		$this->creds($type); break; 
 	    case 'logout' : 
 		$this->logout(); 

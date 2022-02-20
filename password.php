@@ -39,14 +39,13 @@ class password {
     
     private static function getOption() {
 	
-	$isaws = isAWS();
-	if ($isaws) return 'aws';
-	
+		return 'aws';
+	/*
 	if (!ispkwd()) return 'non';
 	
 	if (time() < strtotime('2020-07-04 23:59')) return 'test';
 	
-	return 'non';
+	return 'non'; */
 	
 	
     }
